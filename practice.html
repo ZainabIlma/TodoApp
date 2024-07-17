@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="todo.css">
+</head>
+<body>
+    <div id="head"><center>LINE UP</center></div>
+
+    <div id="inputdiv">
+        <div id="d1">Add New Todo</div>
+        <div id="user">
+            <input id="todo-title" class="todo-info" type="text" placeholder="Todo-title">
+            <input id="due-date" class="todo-info" type="date">
+            <button id="add-todo" class="todo-info" onclick="addTodo()">Add Todo</button>
+        </div>
+    </div>
+
+    <div id="your-todos">Your Todos</div>
+    <div id="list">
+        <div id="todos-list"></div>
+    </div>
+
+    <script>
+        let todos = [];
+        let editingTodoId = null;
+
+        // Initialize from local storage
+        const savedTodos = JSON.parse(localStorage.getItem('todos'));
+        if (Array.isArray(savedTodos)) {
+            todos = savedTodos;
+        }
+
+        render(); // Render the list on page load
+
+        function saveTodos() {
+            localStorage.setItem('todos', JSON.stringify(todos)); // Save to local storage
+        }
+
+        function createTodo(title, date) {
+            const id = new Date().getTime().toString(); // Unique ID
+            todos.push({ title, dueDate: date, id });
+            saveTodos(); // Save the new todo
+        }
+
+        function addTodo() {
+            const addTodoButton = document.getElementById('add-todo');
+            const titleField = document.getElementById('todo-title');
+            const dateField = document.getElementById('due-date');
+
+            const title = titleField.value.trim();
+            const date = dateField.value;
+
+            if (title === '' || date === '') {
+                alert("Please add a title and due date.");
+                return;
+            }
+
+            if (editingTodoId) {
+                // Update existing todo
+                todos = todos.map(todo => {
+                    if (todo.id === editingTodoId) {
+                        return { title, dueDate: date, id: editingTodoId };
+                    }
+                    return todo;
+                });
+
+                addTodoButton.innerText = 'Add Todo'; // Reset button text
+                document.getElementById('d1').innerText = "Add New Todo"; // Reset header text
+                editingTodoId = null; // Exit edit mode
+            } else {
+                createTodo(title, date); // Create a new todo
+            }
+
+            saveTodos(); // Save the changes
+            render(); // Refresh the list
+
+            // Clear input fields
+            titleField.value = '';
+            dateField.value = '';
+        }
+
+        function deleteTodo(event) {
+            const idToDelete = event.target.id;
+            todos = todos.filter(todo => todo.id !== idToDelete); // Remove the todo by ID
+            saveTodos(); // Save updated list
+            render(); // Refresh the list
+        }
+
+        function updateTodo(idToEdit) {
+            editingTodoId = idToEdit; // Store the ID for editing
+
+            const addTodoButton = document.getElementById('add-todo');
+            addTodoButton.innerText = 'UPDATE'; // Change button text to "UPDATE"
+
+            document.getElementById('d1').innerText = "Update Todo"; // Change header to "Update Todo"
+
+            todos.forEach(todo => {
+                if (todo.id === idToEdit) {
+                    document.getElementById('todo-title').value = todo.title; // Set the title field
+                    document.getElementById('due-date').value = todo.dueDate; // Set the due date
+                }
+            });
+        }
+
+        function editTodo(event) {
+            const idToEdit = event.target.id;
+            updateTodo(idToEdit); // Prepare the fields for editing
+        }
+
+        function render() {
+            const todosList = document.getElementById('todos-list');
+            todosList.innerHTML = ''; // Clear the list
+
+            todos.forEach(todo => {
+                const div = document.createElement('div');
+                div.classList.add('d2');
+
+                // Display the title and due date
+                div.innerText = `${todo.title} - Due: ${todo.dueDate}`;
+
+                // Add delete button
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('dbutton');
+                deleteButton.id = todo.id; // ID for deletion
+                deleteButton.onclick = deleteTodo; // Delete action
+                deleteButton.innerHTML = '<img src="done.png" alt="Done" width="20" height="20">';
+
+                div.appendChild(deleteButton); // Add delete button to the div
+
+                // Add edit button
+                const editButton = document.createElement('button');
+                editButton.classList.add('ebutton');
+                editButton.id = todo.id; // ID for editing
+                editButton.onclick = editTodo; // Edit action
+                editButton.innerHTML = '<img src="edit.png" alt="Edit" width="20" height="20">';
+
+                div.appendChild(editButton); // Add edit button to the div
+
+                todosList.appendChild(div); // Add to the list
+            });
+        }
+    </script>
+</body>
+</html>

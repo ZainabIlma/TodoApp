@@ -1,0 +1,122 @@
+body{
+    display:flex;
+    flex-direction:column;
+    background:#FEEFAD
+
+}
+#head, #your-todos{
+    width:100%;
+    background-color:#03AED2;
+    color:#FEEFAD;
+    font: bolder 50px Georgia,Serif;
+    /* font-size: 20px;
+    font-weight: bolder;
+    font-family: cursive; */
+    padding-top:15px ;
+    display: flex;
+    justify-content: center;
+   
+}
+#your-todos{
+   font: italic 30px cursive;
+}
+#d1{
+    font:italic 20px cursive;
+    text-align: center;
+    color:#03AED2;
+    padding: 20px;
+}
+#user{
+    display: flex;
+    flex-direction: row;
+   
+}
+#inputdiv{
+    display: flex;
+    flex-direction: column;
+    height: 180px;
+    width:100%;
+    background-color:#FEEFAD;
+    
+}
+#todos-list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+
+}
+.d2{
+    background-color:#68D2E8;
+    width:fit-content;
+    height:fit-content;
+    border: none;
+    border-radius: 50px;
+    text-align: center;
+    padding: 20px 5px;
+    margin:2px;
+    font: italic 20px cursive;
+    color:#FDDE55;
+    box-shadow: 5px 2px rgb(142, 158, 163);
+    
+
+}
+
+.todo-info{
+    justify-content: space-between;
+    display: flex;
+    flex:1;
+    height:40px;
+    width:70px;
+    background-color: #68D2E8;
+    border:none;
+    font-size: 25px;
+    margin:10px;
+    border-radius: 15px;
+    color: #FDDE55;
+    justify-content: center;
+    box-shadow: 3px 3px rgb(147, 180, 190);
+}
+#list{
+    background:#FEEFAD ;
+}
+#add-todo{
+    background-color:#FDDE55;
+    border-color: #68D2E8;
+    border-style: solid;
+    border-width: 1px;
+    color:#68D2E8;
+    font:bold 20px Georgia ;
+    border-radius: 10px;
+    cursor:pointer;
+    transition:background-color 1s; 
+    padding: 4px;
+    
+    
+}
+#add-todo:hover{
+    height:38px;
+    width:64px;
+    background-color:#03AED2;
+    color:#FDDE55;
+}
+#add-todo:active,.dbutton:active,.ebutton:active{
+    opacity:0.5
+}
+.ebutton,.dbutton{
+    background-color: #FDDE55;
+   
+    color:white;
+    border:none;
+    height:40px;
+    width:40px;
+    border-radius: 18px;
+    margin:2px;
+    
+    cursor:pointer;
+    transition:box-shadow 0.5s;
+}
+.ebutton:hover,.dbutton:hover{
+    box-shadow:2px 2px 5px rgba(0,0,0,0.30);
+    background-color:#ffd000;
+}
